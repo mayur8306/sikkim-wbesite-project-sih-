@@ -1,0 +1,263 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Book an Experience - Monastery360</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #f8f7f5; /* Stone 50 */
+            color: #333333;
+        }
+        .logo-font {
+            font-family: 'Playfair Display', serif;
+        }
+        .dropdown:hover .dropdown-menu {
+            display: block;
+        }
+        .dropdown-menu {
+            display: none;
+            animation: fadeIn 0.3s ease-in-out;
+        }
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(-10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        .nav-link {
+            position: relative;
+        }
+        .nav-link::after {
+            content: '';
+            position: absolute;
+            width: 0;
+            height: 2px;
+            bottom: -4px;
+            left: 50%;
+            transform: translateX(-50%);
+            background-color: #0d9488; /* Teal-600 */
+            transition: width 0.3s ease-in-out;
+        }
+        .nav-link:hover::after, .nav-link.active::after {
+            width: 100%;
+        }
+        .experience-card {
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+        .experience-card:hover {
+            transform: translateY(-8px);
+            box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+        }
+    </style>
+</head>
+<body class="antialiased text-stone-700">
+
+<header class="bg-teal-900 sticky top-0 z-50 shadow-lg">
+    <nav class="container mx-auto px-6">
+        <div class="flex items-center justify-between h-20">
+            <a href="/" class="flex items-center space-x-3">
+                <img src="{% static 'Final LOGO (2).png' %}" alt="monastery360 Logo" class="h-10 w-auto">
+                <span class="text-2xl font-bold text-white logo-font">Monastery360</span>
+            </a>
+            <div class="hidden md:flex items-center h-full">
+                <a href="/" class="text-stone-200 hover:text-white font-medium nav-link px-6 h-full flex items-center">Home</a>
+                <div class="relative dropdown h-full">
+                    <button class="text-stone-200 hover:text-white font-medium nav-link px-6 h-full flex items-center">
+                        Explore <i class="fa-solid fa-chevron-down ml-2 text-xs"></i>
+                    </button>
+                    <div class="dropdown-menu absolute left-0 mt-0 w-56 bg-white rounded-b-lg shadow-xl py-2">
+                        <a href="/tour/" class="block px-4 py-2 text-stone-700 hover:bg-teal-50">Virtual Tours</a>
+                        <a href="/interactive/" class="block px-4 py-2 text-stone-700 hover:bg-teal-50">Interactive Map</a>
+                        {% comment %} <a href="#" class="block px-4 py-2 text-stone-700 hover:bg-teal-50">Monastery Guide</a> {% endcomment %}
+                    </div>
+                </div>
+                <div class="relative dropdown h-full">
+                    <button class="text-white font-medium nav-link active px-6 h-full flex items-center">
+                        Plan Your Visit <i class="fa-solid fa-chevron-down ml-2 text-xs"></i>
+                    </button>
+                    <div class="dropdown-menu absolute left-0 mt-0 w-56 bg-white rounded-b-lg shadow-xl py-2">
+                        <a href="/cultural/" class="block px-4 py-2 text-stone-700 hover:bg-teal-50">Events & Festivals</a>
+                        <a href="/booking/" class="block px-4 py-2 text-stone-700 bg-teal-50 font-semibold">Book an Experience</a>
+                        <a href="{% url 'travel_and_stay' %}" class="block px-4 py-2 text-stone-700 hover:bg-teal-50">Travel & Stay</a>
+                    </div>
+                </div>
+                <div class="relative dropdown h-full">
+                    <button class="text-stone-200 hover:text-white font-medium nav-link px-6 h-full flex items-center">
+                        Digital Archives <i class="fa-solid fa-chevron-down ml-2 text-xs"></i>
+                    </button>
+                    <div class="dropdown-menu absolute left-0 mt-0 w-56 bg-white rounded-b-lg shadow-xl py-2">
+                        <a href="/archives/" class="block px-4 py-2 text-stone-700 hover:bg-teal-50">Search The Archives</a>
+                        <a href="/manuscripts/" class="block px-4 py-2 text-stone-700 hover:bg-teal-50">Manuscripts</a>
+                        <a href="/murals/" class="block px-4 py-2 text-stone-700 hover:bg-teal-50">Murals & Art</a>
+                    </div>
+                </div>
+                <a href="/about/" class="text-stone-200 hover:text-white font-medium nav-link px-6 h-full flex items-center">About Us</a>
+            </div>
+            <div class="hidden md:flex items-center space-x-4">
+                <a href="/login/" class="bg-teal-600 text-white font-semibold px-5 py-2 rounded-lg hover:bg-teal-700 transition duration-300">Login</a>
+            </div>
+            <div class="md:hidden">
+                <button id="mobile-menu-button" class="text-white focus:outline-none">
+                    <i class="fa-solid fa-bars fa-lg"></i>
+                </button>
+            </div>
+        </div>
+    </nav>
+</header>
+
+<main>
+    <section class="bg-teal-50 py-16">
+        <div class="container mx-auto px-6 text-center">
+            <h1 class="text-4xl md:text-5xl font-extrabold text-teal-900 logo-font">Book a Unique Experience</h1>
+            <p class="mt-4 text-lg text-stone-600 max-w-3xl mx-auto">Immerse yourself in the rich culture and serene spirituality of Sikkim with our curated local experiences.</p>
+        </div>
+    </section>
+
+    <section class="py-20">
+        <div class="container mx-auto px-6">
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-10">
+                <!-- Experience Card 1 -->
+                <div class="bg-white rounded-lg shadow-lg overflow-hidden experience-card">
+                    <img src="https://placehold.co/600x400/0d9488/ffffff?text=Guided+Tour" alt="A monk guiding tourists in a monastery" class="w-full h-56 object-cover">
+                    <div class="p-6">
+                        <h2 class="text-2xl font-bold text-teal-800 mb-2">Guided Monastery Tour</h2>
+                        <p class="text-stone-600 mb-4">Explore the history and art of a famous monastery with a knowledgeable local guide.</p>
+                        <div class="flex justify-between items-center text-sm text-stone-500">
+                            <span><i class="fa-solid fa-clock mr-2"></i>3 Hours</span>
+                            <span><i class="fa-solid fa-users mr-2"></i>Max 8 people</span>
+                        </div>
+                        <a href="#booking-form" class="mt-6 inline-block bg-teal-600 text-white font-semibold px-6 py-2 rounded-lg hover:bg-teal-700 transition duration-300">Book Now</a>
+                    </div>
+                </div>
+
+                <!-- Experience Card 2 -->
+                <div class="bg-white rounded-lg shadow-lg overflow-hidden experience-card">
+                    <img src="https://placehold.co/600x400/14b8a6/ffffff?text=Meditation" alt="People meditating in a serene hall" class="w-full h-56 object-cover">
+                    <div class="p-6">
+                        <h2 class="text-2xl font-bold text-teal-800 mb-2">Meditation with Monks</h2>
+                        <p class="text-stone-600 mb-4">Join a morning meditation session led by resident monks for a truly peaceful experience.</p>
+                        <div class="flex justify-between items-center text-sm text-stone-500">
+                            <span><i class="fa-solid fa-clock mr-2"></i>1.5 Hours</span>
+                            <span><i class="fa-solid fa-users mr-2"></i>Max 10 people</span>
+                        </div>
+                        <a href="#booking-form" class="mt-6 inline-block bg-teal-600 text-white font-semibold px-6 py-2 rounded-lg hover:bg-teal-700 transition duration-300">Book Now</a>
+                    </div>
+                </div>
+
+                <!-- Experience Card 3 -->
+                <div class="bg-white rounded-lg shadow-lg overflow-hidden experience-card">
+                    <img src="https://placehold.co/600x400/5eead4/ffffff?text=Cooking+Class" alt="Sikkimese dumplings (momos) being prepared" class="w-full h-56 object-cover">
+                    <div class="p-6">
+                        <h2 class="text-2xl font-bold text-teal-800 mb-2">Sikkimese Cooking Class</h2>
+                        <p class="text-stone-600 mb-4">Learn to cook authentic local dishes like momos and thukpa in a traditional home.</p>
+                        <div class="flex justify-between items-center text-sm text-stone-500">
+                            <span><i class="fa-solid fa-clock mr-2"></i>4 Hours</span>
+                            <span><i class="fa-solid fa-users mr-2"></i>Max 6 people</span>
+                        </div>
+                        <a href="#booking-form" class="mt-6 inline-block bg-teal-600 text-white font-semibold px-6 py-2 rounded-lg hover:bg-teal-700 transition duration-300">Book Now</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Booking Form Section -->
+    <section id="booking-form" class="py-20 bg-white">
+        <div class="container mx-auto px-6">
+            <h2 class="text-3xl font-bold text-teal-900 text-center mb-4">Inquire About an Experience</h2>
+            <p class="text-stone-600 text-center max-w-2xl mx-auto mb-12">Fill out the form below and our team will get back to you shortly to confirm your booking.</p>
+            <form class="max-w-xl mx-auto">
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                    <div>
+                        <label for="name" class="block text-sm font-medium text-stone-700 mb-1">Full Name</label>
+                        <input type="text" id="name" name="name" class="w-full px-4 py-2 border border-stone-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-teal-500" required>
+                    </div>
+                    <div>
+                        <label for="email" class="block text-sm font-medium text-stone-700 mb-1">Email Address</label>
+                        <input type="email" id="email" name="email" class="w-full px-4 py-2 border border-stone-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-teal-500" required>
+                    </div>
+                    <div>
+                        <label for="experience" class="block text-sm font-medium text-stone-700 mb-1">Select Experience</label>
+                        <select id="experience" name="experience" class="w-full px-4 py-2 border border-stone-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-teal-500">
+                            <option>Guided Monastery Tour</option>
+                            <option>Meditation with Monks</option>
+                            <option>Sikkimese Cooking Class</option>
+                        </select>
+                    </div>
+                    <div>
+                        <label for="date" class="block text-sm font-medium text-stone-700 mb-1">Preferred Date</label>
+                        <input type="date" id="date" name="date" class="w-full px-4 py-2 border border-stone-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-teal-500" required>
+                    </div>
+                    <div class="md:col-span-2">
+                        <label for="guests" class="block text-sm font-medium text-stone-700 mb-1">Number of Guests</label>
+                        <input type="number" id="guests" name="guests" min="1" max="10" class="w-full px-4 py-2 border border-stone-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-teal-500" required>
+                    </div>
+                    <div class="md:col-span-2">
+                         <label for="message" class="block text-sm font-medium text-stone-700 mb-1">Message (Optional)</label>
+                         <textarea id="message" name="message" rows="4" class="w-full px-4 py-2 border border-stone-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-teal-500"></textarea>
+                    </div>
+                </div>
+                <div class="mt-8 text-center">
+                    <button type="submit" class="bg-teal-800 text-white font-bold py-3 px-10 rounded-lg hover:bg-teal-900 transition duration-300">Submit Inquiry</button>
+                </div>
+            </form>
+        </div>
+    </section>
+
+</main>
+
+<footer class="bg-teal-900 text-stone-300">
+    <div class="container mx-auto px-6 py-12 grid md:grid-cols-4 gap-8">
+        <div>
+            <h3 class="font-bold text-white text-lg mb-4 logo-font">Monastery360</h3>
+            <p class="text-sm">Exploring the heritage and natural beauty of the Himalayas.</p>
+        </div>
+        <div>
+            <h3 class="font-bold text-white text-lg mb-4">Quick Links</h3>
+            <ul class="space-y-2 text-sm">
+                <li><a href="/" class="hover:text-white">Home</a></li>
+                <li><a href="#" class="hover:text-white">About Us</a></li>
+                <li><a href="#" class="hover:text-white">Contact</a></li>
+                <li><a href="#" class="hover:text-white">FAQ</a></li>
+            </ul>
+        </div>
+        <div>
+            <h3 class="font-bold text-white text-lg mb-4">Legal</h3>
+            <ul class="space-y-2 text-sm">
+                <li><a href="#" class="hover:text-white">Privacy Policy</a></li>
+                <li><a href="#" class="hover:text-white">Terms of Service</a></li>
+            </ul>
+        </div>
+        <div>
+            <h3 class="font-bold text-white text-lg mb-4">Follow Us</h3>
+            <div class="flex space-x-4">
+                <a href="#" class="text-xl hover:text-white"><i class="fab fa-facebook"></i></a>
+                <a href="#" class="text-xl hover:text-white"><i class="fab fa-instagram"></i></a>
+                <a href="#" class="text-xl hover:text-white"><i class="fab fa-twitter"></i></a>
+                <a href="#" class="text-xl hover:text-white"><i class="fab fa-youtube"></i></a>
+            </div>
+        </div>
+    </div>
+    <div class="mt-12 border-t border-teal-800 pt-8 text-center text-sm text-stone-400">
+        &copy; 2025 Monastery360. All Rights Reserved.
+    </div>
+</footer>
+    
+<script>
+    // Mobile menu toggle
+    const mobileMenuButton = document.getElementById('mobile-menu-button');
+    const mobileMenu = document.getElementById('mobile-menu'); // You may need to add an id="mobile-menu" to your mobile menu container
+    mobileMenuButton.addEventListener('click', () => {
+        // Assuming your mobile menu has a 'hidden' class to toggle
+        // You'll need to create the mobile menu HTML structure first
+        // For example: <div id="mobile-menu" class="hidden md:hidden">...</div>
+    });
+</script>
+
+</body>
+</html>
